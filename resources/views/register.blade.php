@@ -126,6 +126,11 @@
                     <label class="text-[15px] font-semibold text-[#1A1714]">Confirm password</label>
                     <input type="password" name="password_confirmation" placeholder="••••••••" required class="w-full border border-[#E2DDD8] rounded-[12px] px-4 py-3.5 text-[16px] text-[#1A1714] tracking-widest focus:outline-none focus:border-[#6646E5] focus:ring-1 focus:ring-[#6646E5] transition-all bg-white shadow-sm placeholder-[#9E9690]">
                 </div>
+                @if(session('success'))
+                    <div style="color: green;">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <button type="submit" class="w-full bg-[#6646E5] hover:bg-[#5538D4] text-white font-semibold text-[17px] rounded-[12px] py-4 transition-colors shadow-md flex items-center justify-center gap-2 mt-2">
                     Create Account <span>&rarr;</span>
                 </button>

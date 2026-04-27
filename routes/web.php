@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -59,4 +60,48 @@ Route::post('/quiz-submit', function () {
 
 Route::get('/logout-success', function () {
     return view('logout-success');
+});
+Route::get('/register', function () {
+    return view('register');
+});
+
+Route::post('/register', function (Request $request) {
+    dd($request->all()); 
+});
+
+Route::post('/register', function (Request $request) {
+
+    $request->validate([
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    User::create([
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    return redirect('/register')->with('success', 'Registered successfully!');
+});
+
+Route::get('/login', function () {
+    return view('login');
+});
+
+Route::post('/login', function (Request $request) {
+
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect('/dashboard');
+    }
+
+    return back()->withErrors([
+        'email' => 'Invalid credentials',
+    ]);
 });
