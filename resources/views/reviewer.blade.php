@@ -29,8 +29,8 @@
                 Processed Apr 20, 2025 &middot; 8 key concepts identified &middot; ~12 min read
             </p>
         </div>
-        <div class="text-[40px] bg-white/10 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0">
-            📑
+        <div class="bg-white/10 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0">
+        <x-heroicon-o-clipboard-document-list class="w-8 h-8 text-white" />
         </div>
     </div>
 

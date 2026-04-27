@@ -19,7 +19,12 @@
         <x-metric-card title="Materials Uploaded" value="12" badgeText="+3 this week" badgeType="success" />
         <x-metric-card title="Quizzes Taken" value="28" badgeText="5 pending" badgeType="info" />
         <x-metric-card title="Avg. Quiz Score" value="87%" badgeText="↑ 4% vs last week" badgeType="success" />
-        <x-metric-card title="Study Streak" value="🔥 7" subText="days in a row" />
+        <x-metric-card title="Study Streak" subText="days in a row">
+            <div class="flex items-center gap-2">
+                <x-heroicon-s-fire class="w-15 h-15 text-orange-500" />
+                <span class="text-4xl font-bold">7</span>
+            </div>
+        </x-metric-card>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 flex-[3] min-h-0">
@@ -40,9 +45,9 @@
 
                 @foreach($materials as $material)
                 <div class="flex items-center gap-4 p-3 hover:bg-[#F9F8F6] rounded-xl transition-colors cursor-pointer border border-transparent hover:border-[#E2DDD8] flex-shrink-0">
-                    <div class="w-12 h-12 bg-[#F0EDE8] rounded-xl flex items-center justify-center text-[20px]">
-                        📄
-                    </div>
+                   <div class="w-12 h-12 bg-[#F0EDE8] rounded-xl flex items-center justify-center">
+                    <x-heroicon-o-document-duplicate class="w-6 h-6 text-[#7C7167]" />
+                            </div>
                     <div class="flex-1">
                         <h4 class="text-[15px] font-semibold text-[#1A1714]">{{ $material['name'] }}</h4>
                         <p class="text-[13px] text-[#7C7167]">Uploaded {{ $material['date'] }} · {{ $material['concepts'] }} concepts extracted</p>
@@ -74,9 +79,11 @@
 
                 @foreach($quizzes as $quiz)
                 <div class="flex items-center gap-4 p-4 border border-[#E2DDD8] rounded-[12px] hover:border-[#6646E5] transition-colors flex-shrink-0">
-                    <div class="w-12 h-12 bg-[#FEF3C7] rounded-xl flex items-center justify-center text-[20px]">
-                        📑
-                    </div>
+
+                <div class="w-12 h-12 bg-[#FEF3C7] rounded-xl flex items-center justify-center">
+                     <x-heroicon-o-clipboard-document-list class="w-6 h-6 text-[#92400E]" />
+                </div>
+
                     <div class="flex-1">
                         <h4 class="text-[15px] font-semibold text-[#1A1714]">{{ $quiz['name'] }}</h4>
                         <p class="text-[13px] text-[#7C7167]">{{ $quiz['topic'] }} · {{ $quiz['qs'] }} questions</p>

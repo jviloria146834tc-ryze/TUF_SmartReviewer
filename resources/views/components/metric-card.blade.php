@@ -1,4 +1,4 @@
-@props(['title', 'value', 'badgeText' => null, 'badgeType' => 'success', 'subText' => null])
+@props(['title', 'value' => null, 'badgeText' => null, 'badgeType' => 'success', 'subText' => null])
 
 @php
     // Dynamically assign Figma's specific pill colors
@@ -14,7 +14,10 @@
     <h3 class="text-[#7C7167] font-medium text-[13px]">{{ $title }}</h3>
     
     <div class="mt-4 flex items-end justify-between">
-        <span class="text-[40px] font-extrabold leading-none text-[#1A1714] tracking-tight">{{ $value }}</span>
+        <span class="text-[40px] font-extrabold leading-none text-[#1A1714] tracking-tight flex items-center gap-2">
+            {{ $value }}
+            {{ $slot }}
+        </span>
         
         @if($badgeText)
             <span class="px-3 py-1.5 rounded-full text-[11px] font-semibold tracking-wide {{ $badgeClass }}">

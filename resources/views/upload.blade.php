@@ -18,11 +18,10 @@
             <div class="w-full lg:flex-1 bg-transparent border-2 border-dashed border-[#E2DDD8] hover:border-[#6646E5] hover:bg-[#F9F8F6] rounded-[18px] p-6 flex flex-col items-center justify-center min-h-[300px] lg:min-h-0 lg:h-full transition-all cursor-pointer relative group">
                 
                 <input type="file" id="document_upload" name="document_file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept=".pdf,.docx,.jpg,.jpeg,.png">
-                
-                <div class="w-[75px] h-[75px] bg-[#E0D8FC] text-[#6646E5] rounded-[22px] flex items-center justify-center text-[35px] mb-6 group-hover:scale-105 transition-transform flex-shrink-0">
-                    📂
+                <div class="w-[75px] h-[75px] bg-[#E0D8FC] text-[#6646E5] rounded-[22px] flex items-center justify-center mb-6 group-hover:scale-105 transition-transform flex-shrink-0">
+                    <x-heroicon-o-folder class="w-10 h-10" stroke-width="2" />
                 </div>
-                
+
                 <h2 class="text-[18px] md:text-[22px] font-bold text-[#1A1714] mb-2 font-['Inter'] text-center">Drag & Drop your file here</h2>
                 <p class="text-[#7C7167] text-[13px] md:text-[15px] mb-6 text-center">Supports PDF, DOCX, JPG, PNG — up to 25MB</p>
                 
@@ -33,7 +32,8 @@
 
             <div class="w-full lg:w-[300px] bg-[#FAF9F7] border border-[#E2DDD8] rounded-[18px] p-6 flex flex-col lg:h-full lg:overflow-y-auto">
                 <h3 class="text-[#1A1714] font-semibold text-[16px] mb-5 flex items-center gap-2 flex-shrink-0">
-                    💡 Tips for best results
+                    <x-heroicon-o-light-bulb class="w-5 h-5 text-orange-500" />
+                    Tips for best results
                 </h3>
                 
                 <ul class="flex flex-col gap-5 text-[#7C7167] text-[13px] leading-relaxed">
