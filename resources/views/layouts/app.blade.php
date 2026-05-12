@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
 <body class="flex h-screen bg-[#F0EDE8] font-['Instrument_Sans'] text-[#1A1714] overflow-hidden">
 
@@ -37,28 +40,28 @@
 
         <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
             
-            <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->is('dashboard') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <svg class="w-5 h-5 {{ request()->is('dashboard') ? 'opacity-90' : 'opacity-70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('dashboard') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
+                <x-heroicon-o-home class="w-5 h-5 {{ request()->routeIs('dashboard') ? 'opacity-90' : 'opacity-70' }}" />
                 <span class="font-medium text-[14px]">Dashboard</span>
             </a>
 
-            <a href="/upload" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->is('upload') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <svg class="w-5 h-5 {{ request()->is('upload') ? 'opacity-90' : 'opacity-70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+            <a href="{{ route('materials.upload') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('materials.upload') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
+                <x-heroicon-o-cloud-arrow-up class="w-5 h-5 {{ request()->routeIs('materials.upload') ? 'opacity-90' : 'opacity-70' }}" />
                 <span class="font-medium text-[14px]">Upload Material</span>
             </a>
 
-            <a href="/reviewer" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->is('reviewer') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <svg class="w-5 h-5 {{ request()->is('reviewer') ? 'opacity-90' : 'opacity-70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            <a href="{{ route('reviewer') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('reviewer') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
+                <x-heroicon-o-book-open class="w-5 h-5 {{ request()->routeIs('reviewer') ? 'opacity-90' : 'opacity-70' }}" />
                 <span class="font-medium text-[14px]">Reviewer</span>
             </a>
 
-            <a href="/quizzes" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->is('quizzes') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <svg class="w-5 h-5 {{ request()->is('quizzes') ? 'opacity-90' : 'opacity-70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <a href="{{ route('quizzes.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ (request()->routeIs('quizzes.index') || request()->routeIs('quizzes.session')) ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
+                <x-heroicon-o-clipboard-document-list class="w-5 h-5 {{ (request()->routeIs('quizzes.index') || request()->routeIs('quizzes.session')) ? 'opacity-90' : 'opacity-70' }}" />
                 <span class="font-medium text-[14px]">Quizzes</span>
             </a>
 
-            <a href="/results" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->is('results') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <svg class="w-5 h-5 {{ request()->is('results') ? 'opacity-90' : 'opacity-70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <a href="{{ route('quizzes.results') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ (request()->routeIs('quizzes.results') || request()->routeIs('quizzes.breakdown')) ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
+                <x-heroicon-o-chart-bar class="w-5 h-5 {{ (request()->routeIs('quizzes.results') || request()->routeIs('quizzes.breakdown')) ? 'opacity-90' : 'opacity-70' }}" />
                 <span class="font-medium text-[14px]">Results</span>
             </a>
             
@@ -77,12 +80,12 @@
                 </div>
             </div>
             
-            <form method="POST" action="/logout">
+            <form method="POST" action="{{ route('logout') }}" id="logout-form">
                 @csrf
-                <a href="/logout-success" class="flex items-center gap-3 px-4 py-3 text-[#A39D98] hover:text-white hover:bg-white/5 rounded-xl transition-all mb-4 group">
-                    <svg class="w-5 h-5 text-[#A39D98] group-hover:text-[#FCA5A5] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[#A39D98] hover:text-white hover:bg-white/5 rounded-xl transition-all mb-4 group text-left">
+                    <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5 text-[#A39D98] group-hover:text-[#FCA5A5] transition-colors" />
                     <span class="font-medium text-[15px] group-hover:text-[#FCA5A5] transition-colors">Sign Out</span>
-                </a>
+                </button>
             </form>
         </div>
 

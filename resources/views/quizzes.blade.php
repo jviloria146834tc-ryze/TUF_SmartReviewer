@@ -8,6 +8,9 @@
 <div class="max-w-[1500px] mx-auto w-full pb-12">
 
     <div class="mb-8">
+        <a href="{{ route('dashboard') }}" class="text-[#7C7167] text-[13px] font-semibold hover:text-[#1A1714] flex items-center gap-1 mb-2 transition-colors w-max">
+            &larr; Dashboard
+        </a>
         <h1 class="text-[33px] font-bold text-[#1A1714] tracking-tight font-['Special_Gothic_Expanded_One',sans-serif]">
             Quizzes
         </h1>
@@ -23,116 +26,71 @@
     </div>
 
     <div class="flex flex-col gap-5">
-        @php
-            // If we clicked the 'Completed' tab, load past quizzes
-            if ($currentTab == 'completed') {
-                // Change this to $quizzes = []; to see the dynamic empty state!
-                $quizzes = [
-                    [
-                        'icon' => '🏆',
-                        'icon_bg' => 'bg-[#D4F5E3]', // Green
-                        'title' => 'Biology 101 — Cell Structure',
-                        'details' => 'Taken on Apr 24, 2026 · 15 questions',
-                        'status' => 'Completed',
-                        'status_bg' => 'bg-[#D4F5E3]',
-                        'status_color' => 'text-[#166534]', 
-                        'metric_label' => 'Final Score',
-                        'progress_text' => '14/15 (93%)',
-                        'progress_percent' => 93,
-                        'progress_color' => 'bg-[#166534]', // Green bar for good score
-                        'button_text' => 'Review Results',
-                        'button_type' => 'secondary', 
-                    ],
-                    [
-                        'icon' => '📊',
-                        'icon_bg' => 'bg-[#E0D8FC]', // Purple
-                        'title' => 'World History — The Renaissance',
-                        'details' => 'Taken on Apr 22, 2026 · 20 questions',
-                        'status' => 'Completed',
-                        'status_bg' => 'bg-[#D4F5E3]',
-                        'status_color' => 'text-[#166534]',
-                        'metric_label' => 'Final Score',
-                        'progress_text' => '16/20 (80%)',
-                        'progress_percent' => 80,
-                        'progress_color' => 'bg-[#6646E5]', // Purple bar
-                        'button_text' => 'Review Results',
-                        'button_type' => 'secondary', 
-                    ]
-                ];
-            } 
-            // Otherwise, load the active quizzes
-            else {
-                $quizzes = [
-                    [
-                        'icon' => '🐍',
-                        'icon_bg' => 'bg-[#E0D8FC]', 
-                        'title' => 'Python Fundamentals — Syntax & Logic',
-                        'details' => '10 questions · Difficulty: Medium · Est. 8 mins',
-                        'status' => 'New',
-                        'status_bg' => 'bg-[#DBEAFE]', 
-                        'status_color' => 'text-[#1E40AF]', 
-                        'metric_label' => 'Progress',
-                        'progress_text' => '0/10',
-                        'progress_percent' => 0,
-                        'progress_color' => 'bg-[#6646E5]',
-                        'button_text' => 'Start Now',
-                        'button_type' => 'primary', 
-                    ],
-                    [
-                        'icon' => '🗄️',
-                        'icon_bg' => 'bg-[#FCE7F3]', 
-                        'title' => 'Database Management — SQL Queries',
-                        'details' => '8 questions · Difficulty: Hard · Est. 10 mins',
-                        'status' => 'In Progress',
-                        'status_bg' => 'bg-[#FEF3C7]', 
-                        'status_color' => 'text-[#92400E]',
-                        'metric_label' => 'Progress',
-                        'progress_text' => '4/8',
-                        'progress_percent' => 50,
-                        'progress_color' => 'bg-[#6646E5]',
-                        'button_text' => 'Continue',
-                        'button_type' => 'secondary', 
-                    ],
-                ];
-            }
-        @endphp
-
         @forelse($quizzes as $quiz)
+        @php
+            $isCompleted = $currentTab == 'completed';
+            $attempt = null;
+            if (auth()->check()) {
+                $attempt = auth()->user()->quizAttempts()->where('quiz_id', $quiz->id)->latest()->first();
+            }
+            
+            $status = 'New';
+            $statusBg = 'bg-[#DBEAFE]';
+            $statusColor = 'text-[#1E40AF]';
+            
+            if ($attempt) {
+                $status = 'Completed';
+                $statusBg = 'bg-[#D4F5E3]';
+                $statusColor = 'text-[#166534]';
+            }
+            
+            $icon = '📝';
+            $iconBg = 'bg-[#E0D8FC]';
+        @endphp
         <div class="bg-white border border-[#E2DDD8] rounded-[16px] p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 shadow-sm hover:border-[#6646E5] hover:shadow-md transition-all cursor-pointer group">
             
-            <div class="w-[56px] h-[56px] rounded-[16px] {{ $quiz['icon_bg'] }} flex items-center justify-center text-[24px] flex-shrink-0 group-hover:scale-105 transition-transform">
-                {{ $quiz['icon'] }}
+            <div class="w-[56px] h-[56px] rounded-[16px] {{ $iconBg }} flex items-center justify-center text-[24px] flex-shrink-0 group-hover:scale-105 transition-transform">
+                {{ $icon }}
             </div>
             
             <div class="flex-1 w-full">
                 <div class="flex items-center flex-wrap gap-3 mb-1.5">
-                    <h3 class="text-[16px] font-bold text-[#1A1714] font-['Syne',sans-serif]">{{ $quiz['title'] }}</h3>
-                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide uppercase {{ $quiz['status_bg'] }} {{ $quiz['status_color'] }}">
-                        {{ $quiz['status'] }}
+                    <h3 class="text-[16px] font-bold text-[#1A1714] font-['Syne',sans-serif]">{{ $quiz->title }}</h3>
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide uppercase {{ $statusBg }} {{ $statusColor }}">
+                        {{ $status }}
                     </span>
                 </div>
-                <p class="text-[#7C7167] text-[14px]">{{ $quiz['details'] }}</p>
+                <p class="text-[#7C7167] text-[14px]">
+                    {{ $quiz->questions()->count() }} questions 
+                    @if($quiz->material) 
+                        &middot; From: {{ $quiz->material->title }}
+                    @endif
+                </p>
             </div>
             
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#E2DDD8]">
                 
                 <div class="w-full sm:w-[150px] flex flex-col gap-1.5">
                     <div class="flex justify-between items-center">
-                        <span class="text-[11px] text-[#A39D98] font-semibold uppercase tracking-wider">{{ $quiz['metric_label'] }}</span>
-                        <span class="text-[12px] text-[#1A1714] font-bold">{{ $quiz['progress_text'] }}</span>
+                        <span class="text-[11px] text-[#A39D98] font-semibold uppercase tracking-wider">
+                            {{ $attempt ? 'Final Score' : 'Progress' }}
+                        </span>
+                        <span class="text-[12px] text-[#1A1714] font-bold">
+                            {{ $attempt ? $attempt->score . '/' . $attempt->total_questions : '0%' }}
+                        </span>
                     </div>
                     <div class="flex-1 bg-[#F0EDE8] h-1.5 rounded-full overflow-hidden">
-                        <div class="{{ $quiz['progress_color'] }} h-full rounded-full transition-all duration-500" style="width: {{ $quiz['progress_percent'] }}%"></div>
+                        <div class="bg-[#6646E5] h-full rounded-full transition-all duration-500" style="width: {{ ($attempt && $attempt->total_questions > 0) ? ($attempt->score / $attempt->total_questions) * 100 : 0 }}%"></div>
                     </div>
                 </div>
                 
-                @if($quiz['button_type'] == 'primary')
-                    <a href="/quiz-session" class="w-full sm:w-auto bg-[#6646E5] hover:bg-[#5538D4] text-white px-6 py-2.5 rounded-[8px] font-semibold text-[13px] transition-colors whitespace-nowrap shadow-sm text-center block">
-                        {{ $quiz['button_text'] }}
+                @if(!$attempt)
+                    <a href="{{ route('quizzes.session', $quiz->id) }}" class="w-full sm:w-auto bg-[#6646E5] hover:bg-[#5538D4] text-white px-6 py-2.5 rounded-[8px] font-semibold text-[13px] transition-colors whitespace-nowrap shadow-sm text-center block">
+                        Start Now
                     </a>
                 @else
-                    <a href="/results" class="w-full sm:w-auto bg-white border border-[#E2DDD8] hover:bg-[#F9F8F6] text-[#1A1714] px-6 py-2.5 rounded-[8px] font-semibold text-[13px] transition-colors whitespace-nowrap text-center block">
-                        {{ $quiz['button_text'] }}
+                    <a href="{{ route('quizzes.breakdown', $attempt->id) }}" class="w-full sm:w-auto bg-white border border-[#E2DDD8] hover:bg-[#F9F8F6] text-[#1A1714] px-6 py-2.5 rounded-[8px] font-semibold text-[13px] transition-colors whitespace-nowrap text-center block">
+                        Review Results
                     </a>
                 @endif
 

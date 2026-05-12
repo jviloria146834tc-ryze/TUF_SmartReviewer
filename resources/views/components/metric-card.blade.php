@@ -11,7 +11,7 @@
 @endphp
 
 <div class="bg-white border border-[#E2DDD8] rounded-[16px] p-8 flex flex-col justify-between h-full min-h-[160px] shadow-sm">
-    <h3 class="text-[#7C7167] font-medium text-[13px]">{{ $title }}</h3>
+    <h3 class="text-[#7C7167] font-medium text-[12px]">{{ $title }}</h3>
     
     <div class="mt-4 flex items-end justify-between">
         <span class="text-[40px] font-extrabold leading-none text-[#1A1714] tracking-tight flex items-center gap-2">
@@ -24,7 +24,7 @@
                 {{ $badgeText }}
             </span>
         @elseif($subText)
-            <span class="text-[#92400E] text-[11px] font-semibold tracking-wide mb-1">{{ $subText }}</span>
+            <span class="text-[#92400E] text-[15px] font-semibold tracking-wide mb-1">{{ $subText }}</span>
         @endif
     </div>
 </div>

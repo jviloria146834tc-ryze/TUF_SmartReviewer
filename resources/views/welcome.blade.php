@@ -51,10 +51,10 @@
         </p>
 
         <div class="flex flex-wrap justify-center gap-4 mb-16 font-['Instrument_Sans']">
-            <a href="/register" class="bg-[#6646E5] hover:bg-[#5538D4] text-white px-8 py-3.5 rounded-xl font-semibold text-lg transition-colors shadow-md">
+            <a href="{{ route('register') }}" class="bg-[#6646E5] hover:bg-[#5538D4] text-white px-8 py-3.5 rounded-xl font-semibold text-lg transition-colors shadow-md">
                 Get Started
             </a>
-            <a href="/login" class="bg-[#2E2B28] hover:bg-[#3A3734] text-[#F0EDE8] px-8 py-3.5 rounded-xl font-semibold text-lg transition-colors shadow-md border border-[#3A3734]">
+            <a href="{{ route('login') }}" class="bg-[#2E2B28] hover:bg-[#3A3734] text-[#F0EDE8] px-8 py-3.5 rounded-xl font-semibold text-lg transition-colors shadow-md border border-[#3A3734]">
                 Sign In
             </a>
         </div>

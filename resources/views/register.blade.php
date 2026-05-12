@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
+    <title>Create Account - SmartReviewer</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,12 +37,12 @@
             <span class="text-[32px] font-normal font-['Inter'] text-white tracking-tight">Smart<span style="font-weight: bold;">Reviewer</span></span>
         </div>
 
-        <div class="mb-16 relative z-10">
+        <div class="mb-20 relative z-10">
             <h1 class="text-white text-[50px] lg:text-[64px] font-bold font-['Inter'] leading-[1.05] mb-6">
                 Supercharge<br>your studies.
             </h1>
             <p class="text-[#9E9690] text-[18px] lg:text-[20px] leading-relaxed max-w-[450px]">
-                Join thousands of students turning their notes into interactive AI quizzes instantly.
+                The smartest way to study—instantly generate quizzes from your lecture notes.  
             </p>
             
             <div class="w-full mt-12 hidden lg:grid grid-cols-2 gap-x-6 gap-y-8 max-w-[650px] relative z-10 pb-12">
@@ -99,10 +99,10 @@
         <div class="w-full max-w-[440px] py-8 mb-12">
             <h2 class="text-[32px] md:text-[35px] font-bold font-['Inter'] leading-tight mb-2 text-[#1A1714]">Create your account</h2>
             <p class="text-[#7C7167] text-[16px] mb-8">
-                Already have one? <a href="/login" class="text-[#6646E5] font-semibold hover:text-[#5538D4] transition-colors">Sign in</a>
+                Already have one? <a href="{{ route('login') }}" class="text-[#6646E5] font-semibold hover:text-[#5538D4] transition-colors">Sign in</a>
             </p>
 
-            <form method="POST" action="/register" class="flex flex-col gap-5">
+            <form method="POST" action="{{ route('register.post') }}" class="flex flex-col gap-5">
                 @csrf
                 <div class="flex flex-col md:flex-row gap-5">
                     <div class="flex flex-col gap-2 w-full md:w-1/2">
@@ -141,7 +141,7 @@
         </div>
 
         <div class="absolute bottom-8 text-center w-full">
-            <a href="/" class="text-[15px] text-[#7C7167] hover:text-[#1A1714] transition-colors flex items-center justify-center gap-2">
+            <a href="{{ url('/') }}" class="text-[15px] text-[#7C7167] hover:text-[#1A1714] transition-colors flex items-center justify-center gap-2">
                 <span>&larr;</span> Back to home
             </a>
         </div>

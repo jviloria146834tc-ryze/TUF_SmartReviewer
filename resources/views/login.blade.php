@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
+    <title>Sign In - SmartReviewer</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,33 +53,33 @@
                         <svg class="w-8 h-8 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd" />
                         </svg>
-                        7 <span class="text-[18px] font-medium text-white/60 mt-1.5 hover:text-white transition-colors duration-150">Days</span>
+                        0 <span class="text-[18px] font-medium text-white/60 mt-1.5 hover:text-white transition-colors duration-150">Days</span>
                     </div>
                 </div>
 
                 <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-[20px] transform rotate-3 hover:rotate-0 transition-all duration-300 shadow-2xl cursor-default translate-y-8">
                     <div class="text-[#E0D8FC] text-[15px] font-semibold mb-3">Avg. Quiz Score</div>
                     <div class="text-white text-[32px] xl:text-[36px] font-bold tracking-tight flex items-center gap-3">
-                        87% <span class="bg-[#166534] text-[#D4F5E3] text-[14px] px-3 py-1.5 rounded-full font-medium">↑ 4%</span>
+                        0% <span class="bg-[#1A1714] text-[#9E9690] text-[14px] px-3 py-1.5 rounded-full font-medium border border-white/10">Stable</span>
                     </div>
                 </div>
 
                 <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-[20px] transform rotate-1 hover:rotate-0 transition-all duration-300 shadow-xl cursor-default">
-                    <div class="text-[#E0D8FC] text-[15px] font-semibold mb-2">Cards Reviewed</div>
+                    <div class="text-[#E0D8FC] text-[15px] font-semibold mb-2">Materials Reviewed</div>
                     <div class="text-white text-[32px] xl:text-[36px] font-bold tracking-tight flex items-baseline gap-1.5">
                         <svg class="w-8 h-8 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                         </svg>
-                        150 <span class="text-[18px] font-medium text-white/60 mb-1.5 hover:text-white transition-colors duration-150">Cards</span>
+                        0 <span class="text-[18px] font-medium text-white/60 mb-1.5 hover:text-white transition-colors duration-150">Docs</span>
                     </div>
                 </div>
 
                 <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-[20px] transform -rotate-2 hover:rotate-0 transition-all duration-300 shadow-2xl cursor-default translate-y-8">
                     <div class="text-[#E0D8FC] text-[15px] font-semibold mb-3">Goal Achievement</div>
                     <div class="text-white text-[22px] xl:text-[24px] font-semibold tracking-tight flex items-center gap-3">
-                        3 Chapters <span class="text-white text-3xl">🏆</span>
+                        0 Chapters <span class="text-white text-3xl grayscale">🏆</span>
                     </div>
-                    <div class="text-white/60 text-[13px] mt-1.5 hover:text-white transition-colors duration-150">Perfect quiz mastery achieved.</div>
+                    <div class="text-white/60 text-[13px] mt-1.5 hover:text-white transition-colors duration-150">Start your first chapter today.</div>
                 </div>
 
             </div>
@@ -93,10 +93,22 @@
         <div class="w-full max-w-[440px]">
             <h2 class="text-[32px] md:text-[35px] font-bold font-['Inter'] leading-tight mb-2 text-[#1A1714]">Sign in</h2>
             <p class="text-[#7C7167] text-[16px] mb-10">
-                Don't have an account? <a href="/register" class="text-[#6646E5] font-semibold hover:text-[#5538D4] transition-colors">Create one</a>
+                Don't have an account? <a href="{{ route('register') }}" class="text-[#6646E5] font-semibold hover:text-[#5538D4] transition-colors">Create one</a>
             </p>
 
-            <form method="POST" action="/login" class="flex flex-col gap-5">
+            @if ($errors->any())
+                <div class="mb-8 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+                    <div class="bg-red-500 text-white p-1 rounded-full flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-red-800 font-bold text-[14px]">Authentication Failed</h4>
+                        <p class="text-red-700 text-[13px] mt-0.5">The credentials you entered do not match our records. Please try again or create an account.</p>
+                    </div>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login.post') }}" class="flex flex-col gap-5">
                 @csrf
                 <div class="flex flex-col gap-2">
                     <label class="text-[15px] font-semibold text-[#1A1714]">Email address</label>
@@ -120,7 +132,7 @@
         </div>
 
         <div class="absolute bottom-8 text-center w-full">
-            <a href="/" class="text-[15px] text-[#7C7167] hover:text-[#1A1714] transition-colors flex items-center justify-center gap-2">
+            <a href="{{ url('/') }}" class="text-[15px] text-[#7C7167] hover:text-[#1A1714] transition-colors flex items-center justify-center gap-2">
                 <span>&larr;</span> Back to home
             </a>
         </div>
