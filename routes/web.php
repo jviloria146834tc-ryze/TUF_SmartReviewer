@@ -79,6 +79,11 @@ Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->middleware('guest')->name('password.request');
 
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->middleware(['guest', 'throttle:6,1'])->name('password.email');
+
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->middleware('guest')->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1')->name('login.post');
 
@@ -175,7 +180,7 @@ Route::middleware(['auth', 'prevent-back', 'verified'])->group(function () {
                 ->first();
 
             $flashcardsCount = $material->flashcards()->count();
-            $allFlashcardsMastered = $flashcardsCount > 0 && 
+            $allFlashcardsMastered = $flashcardsCount > 0 &&
                                     $material->flashcards()->where('is_mastered', true)->count() === $flashcardsCount;
         }
 

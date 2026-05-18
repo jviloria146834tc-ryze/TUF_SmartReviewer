@@ -14,7 +14,7 @@
         </h1>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-5 items-stretch animate-glide-up delay-100 flex-shrink-0">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-5 items-stretch animate-glide-up delay-100 flex-shrink-0">
         <!-- Avg Score Card -->
         <div class="lg:col-span-1 bg-white border border-[#E2DDD8] rounded-[20px] flex flex-col shadow-sm hover:border-[#6646E5] transition-all duration-300 group cursor-default relative overflow-hidden">
             <div class="bg-[#1A1714] p-3 px-5 relative overflow-hidden">

@@ -20,7 +20,18 @@
             --sb-logo-px: 24px;
             --sb-link-px: 16px;
             --sb-gap: 12px;
-        }        html[data-sb="collapsed"] { 
+        }
+
+        /* Smaller monitors (Laptops) */
+        @media (min-width: 1024px) and (max-width: 1440px) {
+            :root {
+                --sb-w: 240px;
+                --sb-logo-px: 20px;
+                --sb-gap: 10px;
+            }
+        }
+
+        html[data-sb="collapsed"] { 
             --sb-w: 80px; 
             --sb-logo-px: 0px;
             --sb-link-px: 0px;
@@ -97,7 +108,16 @@
     <script>
         /* Immediate execution to prevent layout shift */
         (function() {
-            const state = localStorage.getItem('sidebarOpen') === 'false' ? 'collapsed' : 'expanded';
+            const stored = localStorage.getItem('sidebarOpen');
+            let state;
+            
+            if (stored === null) {
+                // Default based on screen size: collapse on small monitors (< 1280px)
+                state = window.innerWidth < 1280 ? 'collapsed' : 'expanded';
+            } else {
+                state = stored === 'false' ? 'collapsed' : 'expanded';
+            }
+            
             document.documentElement.setAttribute('data-sb', state);
             
             // Temporary class to prevent transition on initial load
@@ -111,7 +131,10 @@
     </script>
 </head>
 <body class="flex h-screen bg-[#F0EDE8] font-['Instrument_Sans'] text-[#1A1714] overflow-hidden" 
-      x-data="{ sidebarOpen: localStorage.getItem('sidebarOpen') !== 'false', mobileMenuOpen: false }" 
+      x-data="{ 
+          sidebarOpen: document.documentElement.getAttribute('data-sb') !== 'collapsed', 
+          mobileMenuOpen: false 
+      }" 
       @sidebar-toggle.window="sidebarOpen = !sidebarOpen; localStorage.setItem('sidebarOpen', sidebarOpen); document.documentElement.setAttribute('data-sb', sidebarOpen ? 'expanded' : 'collapsed')">
 
     <!-- Top Progress Bar -->
@@ -274,7 +297,7 @@
             </button>
         </header>
 
-        <main class="flex-1 overflow-y-auto p-4 md:p-8">
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 xl:p-10">
             @yield('content')
         </main>
     </div>

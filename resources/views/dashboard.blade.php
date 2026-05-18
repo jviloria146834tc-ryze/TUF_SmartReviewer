@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-5 flex-shrink-0 animate-glide-up delay-100">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-5 flex-shrink-0 animate-glide-up delay-100">
         <x-metric-card title="Materials Uploaded" value="{{ $stats['materials_count'] }}" badgeText="{{ $stats['materials_delta'] }}" badgeType="success" icon="heroicon-o-folder-open" />
         <x-metric-card title="Mastered Flashcards" value="{{ $stats['mastered_flashcards'] }}" badgeText="{{ $stats['mastery_delta'] }}" badgeType="success" icon="heroicon-o-academic-cap" />
         <x-metric-card title="Quizzes Taken" value="{{ $stats['quizzes_count'] }}" badgeText="{{ $stats['quizzes_delta'] }}" badgeType="success" icon="heroicon-o-document-duplicate" />
@@ -86,7 +86,7 @@
         </x-metric-card>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5 flex-[3] min-h-0 animate-glide-up delay-200">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-5 flex-[3] min-h-0 animate-glide-up delay-200">
         
         <div x-data class="bg-white border border-[#E2DDD8] rounded-[16px] shadow-sm flex flex-col h-full min-h-0 hover:border-[#6646E5]/40 transition-all duration-300 relative group overflow-hidden">
             <div class="p-5 flex justify-between items-center flex-shrink-0 relative z-10">
@@ -129,17 +129,17 @@
                        <div class="w-11 h-11 {{ $iconBg }} rounded-xl flex items-center justify-center transition-transform group-hover/item:scale-105">
                             <x-dynamic-component :component="$iconName" class="w-5.5 h-5.5 {{ $iconColor }}" />
                         </div>
-                        <div class="flex-1">
-                            <h4 class="text-[14px] font-bold text-[#1A1714] group-hover/item:text-[#6646E5] transition-colors leading-tight">{{ $material->title }}</h4>
-                            <p class="text-[12px] text-[#7C7167] mt-0.5">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-[14px] font-bold text-[#1A1714] group-hover/item:text-[#6646E5] transition-colors leading-tight truncate">{{ $material->title }}</h4>
+                            <p class="text-[12px] text-[#7C7167] mt-0.5 truncate">
                                 @if($material->source_name)
-                                    {{ $material->source_name }} <span class="mx-1.5">•</span> {{ $material->created_at->format('M d, Y • h:i A') }}
+                                    {{ $material->source_name }} <span class="mx-1.5">•</span> {{ $material->created_at->format('M d, Y') }}
                                 @else
-                                    Uploaded on {{ $material->created_at->format('M d, Y • h:i A') }}
+                                    Uploaded on {{ $material->created_at->format('M d, Y') }}
                                 @endif
                             </p>
                         </div>
-                        <div>
+                        <div class="flex-shrink-0">
                             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase
                                 {{ $material->status == 'completed' ? 'bg-[#D4F5E3] text-[#166534]' : ($material->status == 'processing' ? 'bg-[#FEF3C7] text-[#92400E]' : 'bg-gray-100 text-gray-600') }}">
                                 {{ $material->status }}
@@ -190,34 +190,37 @@
                             $quizTypeLabel = 'Empty';
                         }
                     @endphp
-                    <div class="flex items-center gap-3.5 p-3.5 border border-[#E2DDD8] rounded-[12px] hover:border-[#6646E5] transition-colors flex-shrink-0 group/item"
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3.5 p-3.5 border border-[#E2DDD8] rounded-[12px] hover:border-[#6646E5] transition-colors flex-shrink-0 group/item"
                          x-data="{ showProgress: false }"
                          x-init="setTimeout(() => showProgress = true, {{ 600 + ($loop->index * 100) }})">
 
-                        <div class="w-11 h-11 bg-[#FEF3C7] rounded-xl flex items-center justify-center flex-shrink-0">
-                             <x-heroicon-o-clipboard-document-list class="w-5.5 h-5.5 text-[#92400E]" />
+                        <div class="flex items-center gap-3.5 flex-1 min-w-0 w-full">
+                            <div class="w-11 h-11 bg-[#FEF3C7] rounded-xl flex items-center justify-center flex-shrink-0">
+                                 <x-heroicon-o-clipboard-document-list class="w-5.5 h-5.5 text-[#92400E]" />
+                            </div>
+
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="text-[14px] font-bold text-[#1A1714] leading-tight truncate">{{ $quiz->title }}</h4>
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-semibold tracking-wide uppercase bg-[#F4F2FF] text-[#6646E5] border border-[#E0D8FC] flex-shrink-0">
+                                        {{ $quizTypeLabel }}
+                                    </span>
+                                </div>
+                                
+                                <div class="mt-1.5 flex items-center gap-2.5">
+                                    <div class="flex-1 bg-[#F0EDE8] h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-[#6646E5] h-full rounded-full transition-all duration-1000 ease-out" 
+                                             :style="`width: ${showProgress ? '{{ $progressPercent }}%' : '0%'}`"
+                                             style="width: 0%"></div>
+                                    </div>
+                                    <span class="text-[10px] text-[#7C7167] font-bold min-w-[45px]">
+                                        {{ $attempt ? 'IN PROGRESS' : 'START' }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2 mb-1">
-                                <h4 class="text-[14px] font-bold text-[#1A1714] leading-tight truncate">{{ $quiz->title }}</h4>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-semibold tracking-wide uppercase bg-[#F4F2FF] text-[#6646E5] border border-[#E0D8FC] flex-shrink-0">
-                                    {{ $quizTypeLabel }}
-                                </span>
-                            </div>
-                            
-                            <div class="mt-1.5 flex items-center gap-2.5">
-                                <div class="flex-1 bg-[#F0EDE8] h-1.5 rounded-full overflow-hidden">
-                                    <div class="bg-[#6646E5] h-full rounded-full transition-all duration-1000 ease-out" 
-                                         :style="`width: ${showProgress ? '{{ $progressPercent }}%' : '0%'}`"
-                                         style="width: 0%"></div>
-                                </div>
-                                <span class="text-[10px] text-[#7C7167] font-bold min-w-[45px]">
-                                    {{ $attempt ? 'IN PROGRESS' : 'START' }}
-                                </span>
-                            </div>
-                        </div>
-                        <a href="{{ route('quizzes.session', $quiz->id) }}" class="px-3 py-1.5 border border-[#E2DDD8] rounded-lg text-[#1A1714] text-[11px] font-bold hover:bg-[#F9F8F6] transition-colors whitespace-nowrap">
+                        <a href="{{ route('quizzes.session', $quiz->id) }}" class="w-full sm:w-auto text-center px-3 py-1.5 border border-[#E2DDD8] rounded-lg text-[#1A1714] text-[11px] font-bold hover:bg-[#F9F8F6] transition-colors whitespace-nowrap">
                             {{ $attempt ? 'Continue' : 'Start' }} &rarr;
                         </a>
                     </div>
@@ -232,7 +235,7 @@
 
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mb-4 flex-shrink-0 min-h-[290px] animate-glide-up delay-300 overflow-visible relative z-30">
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5 mb-4 flex-shrink-0 min-h-[290px] animate-glide-up delay-300 overflow-visible relative z-30">
         <!-- Weekly Performance Chart -->
         <div class="lg:col-span-2 bg-white border border-[#E2DDD8] rounded-[16px] shadow-sm flex flex-col relative overflow-visible hover:border-[#6646E5]/40 transition-all duration-300 group/weekly">
             <!-- Premium Header -->

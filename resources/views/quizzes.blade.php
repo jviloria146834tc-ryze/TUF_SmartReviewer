@@ -333,7 +333,7 @@
                 <div class="space-y-8">
                     <div class="flex flex-col gap-4">
                         <label class="text-[14px] font-bold text-[#1A1714] uppercase tracking-wider">How many items?</label>
-                        <div class="grid grid-cols-4 gap-3">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             <template x-for="count in [5, 10, 15, 20, 30, 40, 50, 60]">
                                 <button type="button" 
                                         @click="numQuestions = count"

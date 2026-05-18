@@ -114,7 +114,7 @@
     <div class="w-full flex flex-col gap-10 relative z-10">
         
         <!-- TOP SECTION: Material Banner & Flashcards -->
-        <div class="w-full flex flex-col lg:flex-row gap-6 items-stretch animate-glide-up delay-100">
+        <div class="w-full flex flex-col xl:flex-row gap-6 items-stretch animate-glide-up delay-100">
             <!-- Material Title Banner -->
             @php
                 $ext = strtolower(pathinfo($material->file_path ?? $material->original_path ?? '', PATHINFO_EXTENSION));
@@ -140,7 +140,7 @@
             </div>
 
             <!-- Flashcards Button -->
-            <a href="{{ route('flashcards.index', $material->id) }}" class="lg:w-[440px] bg-[#1A1714] border border-[#2E2B28] hover:border-[#6646E5] rounded-[24px] px-8 py-6 flex items-center gap-6 shadow-xl transition-all group relative overflow-hidden">
+            <a href="{{ route('flashcards.index', $material->id) }}" class="xl:w-[440px] bg-[#1A1714] border border-[#2E2B28] hover:border-[#6646E5] rounded-[24px] px-8 py-6 flex items-center gap-6 shadow-xl transition-all group relative overflow-hidden">
                 <div class="absolute -bottom-12 -right-12 w-40 h-40 bg-[#6646E5] rounded-full mix-blend-multiply filter blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
                 <div class="w-20 h-20 bg-[#6646E5] rounded-[22px] flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform relative z-10 shrink-0">
                     <x-heroicon-o-rectangle-stack class="w-10 h-10" />
@@ -183,7 +183,7 @@
                 <h3 class="text-[24px] font-bold text-[#1A1714] font-['Inter']">Key Concepts to Master</h3>
             </div>
             @if($material->concepts)
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     @foreach($material->concepts as $concept)
                     <div class="bg-[#1A1714] border border-[#2E2B28] rounded-[24px] p-6 md:p-8 flex flex-col gap-4 shadow-sm hover:border-[#6646E5]/60 hover:shadow-[0_0_20px_rgba(102,70,229,0.15)] transition-all duration-300 relative overflow-hidden group">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-[#E0D8FC] mix-blend-multiply opacity-[0.03] rounded-bl-full group-hover:opacity-10 transition-opacity"></div>

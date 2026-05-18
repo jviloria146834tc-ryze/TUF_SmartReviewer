@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password | SmartReviewer</title>
+    <title>Reset Password | SmartReviewer</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,11 +38,11 @@
         <div class="mt-8 mb-16 relative z-10">
             <!-- Heading -->
             <h1 class="text-white text-[50px] lg:text-[64px] font-bold font-['Inter'] leading-[1.05] mb-6 animate-glide-down">
-                Forgot your<br>password?
+                Reset your<br>password
             </h1>
             <!-- Subtext -->
             <p class="text-[#9E9690] text-[18px] lg:text-[20px] leading-relaxed max-w-[450px] animate-glide-down delay-100">
-                No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+                Enter your new password below to regain access to your account and continue your learning journey.
             </p>
         </div>
 
@@ -54,23 +54,11 @@
         
         <div class="w-full max-w-[440px]">
             <h2 class="text-[32px] md:text-[35px] font-bold font-['Inter'] leading-tight mb-2 text-[#1A1714] animate-glide-up">
-                Reset Password
+                New Password
             </h2>
             <p class="text-[#7C7167] text-[16px] mb-10 animate-glide-up delay-100">
-                Remember your password? <a href="{{ route('login') }}" class="text-[#6646E5] font-semibold hover:text-[#5538D4] transition-colors">Sign In</a>
+                Please create a strong password for your account.
             </p>
-
-            @if (session('status'))
-                <div class="mb-8 bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-start gap-3 animate-glide-up delay-150">
-                    <div class="bg-emerald-500 text-white p-1 rounded-full flex-shrink-0 mt-0.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <div>
-                        <h4 class="text-emerald-800 font-bold text-[14px]">Link Sent</h4>
-                        <p class="text-emerald-700 text-[13px] mt-0.5">{{ session('status') }}</p>
-                    </div>
-                </div>
-            @endif
 
             @if ($errors->any())
                 <div class="mb-8 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 animate-glide-up delay-150">
@@ -78,7 +66,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </div>
                     <div>
-                        <h4 class="text-red-800 font-bold text-[14px]">Request Failed</h4>
+                        <h4 class="text-red-800 font-bold text-[14px]">Update Failed</h4>
                         <ul class="text-red-700 text-[13px] mt-1 space-y-1">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -88,21 +76,38 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('password.email') }}" class="flex flex-col gap-5 relative z-10 animate-glide-up delay-200">
+            <form method="POST" action="{{ route('password.update') }}" class="flex flex-col gap-5 relative z-10 animate-glide-up delay-200">
                 @csrf
+
+                <!-- Password Reset Token -->
+                <input type="hidden" name="token" value="{{ $token }}">
+
+                <!-- Email Address -->
                 <div class="flex flex-col gap-2 group">
                     <label class="text-[15px] font-semibold text-[#1A1714] group-focus-within:text-[#6646E5] transition-colors">Email address</label>
-                    <input type="email" name="email" required autofocus class="w-full border border-[#E2DDD8] rounded-[12px] px-4 py-3.5 text-[16px] text-[#1A1714] focus:outline-none focus:border-[#6646E5] focus:ring-4 focus:ring-[#6646E5]/10 hover:border-[#C4BCB4] transition-all bg-white shadow-sm placeholder-[#9E9690]">
+                    <input type="email" name="email" value="{{ old('email', $email) }}" required autofocus readonly class="w-full border border-[#E2DDD8] rounded-[12px] px-4 py-3.5 text-[16px] text-[#7C7167] focus:outline-none bg-[#F9F8F7] shadow-sm cursor-not-allowed">
+                </div>
+
+                <!-- Password -->
+                <div class="flex flex-col gap-2 group">
+                    <label class="text-[15px] font-semibold text-[#1A1714] group-focus-within:text-[#6646E5] transition-colors">New Password</label>
+                    <input type="password" name="password" required class="w-full border border-[#E2DDD8] rounded-[12px] px-4 py-3.5 text-[16px] text-[#1A1714] focus:outline-none focus:border-[#6646E5] focus:ring-4 focus:ring-[#6646E5]/10 hover:border-[#C4BCB4] transition-all bg-white shadow-sm placeholder-[#9E9690]">
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="flex flex-col gap-2 group">
+                    <label class="text-[15px] font-semibold text-[#1A1714] group-focus-within:text-[#6646E5] transition-colors">Confirm Password</label>
+                    <input type="password" name="password_confirmation" required class="w-full border border-[#E2DDD8] rounded-[12px] px-4 py-3.5 text-[16px] text-[#1A1714] focus:outline-none focus:border-[#6646E5] focus:ring-4 focus:ring-[#6646E5]/10 hover:border-[#C4BCB4] transition-all bg-white shadow-sm placeholder-[#9E9690]">
                 </div>
                 
                 <button type="submit" class="w-full bg-[#6646E5] hover:bg-[#5538D4] text-white font-semibold text-[17px] rounded-[12px] py-4 mt-2 transition-all duration-300 shadow-[0_4px_15_rgba(102,70,229,0.3)] hover:shadow-[0_6px_25_rgba(102,70,229,0.5)] hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
-                    Email Password Reset Link <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    Reset Password <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </button>
             </form>
 
             <div class="mt-8 text-center relative z-10 animate-glide-up delay-300">
-                <a href="{{ url('/') }}" class="text-[15px] text-[#7C7167] hover:text-[#1A1714] transition-all flex items-center justify-center gap-2 group w-max mx-auto">
-                    <span class="group-hover:-translate-x-1 transition-transform">&larr;</span> Back to home
+                <a href="{{ route('login') }}" class="text-[15px] text-[#7C7167] hover:text-[#1A1714] transition-all flex items-center justify-center gap-2 group w-max mx-auto">
+                    <span class="group-hover:-translate-x-1 transition-transform">&larr;</span> Back to login
                 </a>
             </div>
         </div>
