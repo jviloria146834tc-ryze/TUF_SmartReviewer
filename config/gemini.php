@@ -36,4 +36,24 @@ return [
     */
 
     'request_timeout' => env('GEMINI_REQUEST_TIMEOUT', 30),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Gemini Model
+    |--------------------------------------------------------------------------
+    |
+    | The default model used for processing material and generating quizzes.
+    */
+    'model' => env('GEMINI_MODEL', 'gemini-3.1-flash-lite'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Generation Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Tuning parameters for the AI response quality.
+    */
+    'temperature' => env('GEMINI_TEMPERATURE', 0.7),
+    'top_p' => env('GEMINI_TOP_P', 0.95),
+    'top_k' => env('GEMINI_TOP_K', 40),
 ];

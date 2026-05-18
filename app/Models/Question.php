@@ -9,6 +9,7 @@ class Question extends Model
 {
     protected $fillable = [
         'quiz_id',
+        'type',
         'question_text',
         'options',
         'correct_answer',

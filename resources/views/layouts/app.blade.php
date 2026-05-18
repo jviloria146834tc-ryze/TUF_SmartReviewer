@@ -3,97 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartReviewer</title>
+    <title>@yield('title', 'AI Study Hub') | SmartReviewer</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <style>[x-cloak] { display: none !important; }</style>
-</head>
-<body class="flex h-screen bg-[#F0EDE8] font-['Instrument_Sans'] text-[#1A1714] overflow-hidden">
+    <style>
+        [x-cloak] { display: none !important; }
 
-    <aside class="w-[240px] bg-[#1A1714] flex flex-col flex-shrink-0 h-full">
+        /* Persistent Sidebar State (Prevents Flicker) */
+        :root { 
+            --sb-w: 260px; 
+            --sb-logo-px: 24px;
+            --sb-link-px: 16px;
+            --sb-gap: 12px;
+        }        html[data-sb="collapsed"] { 
+            --sb-w: 80px; 
+            --sb-logo-px: 0px;
+            --sb-link-px: 0px;
+            --sb-gap: 0px;
+        }
         
-        <div class="px-6 py-8 border-b border-[#2E2B28] mb-4">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-[#6646E5] rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg width="97" height="97" viewBox="0 0 97 97" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_264_1514)">
-                    <path d="M67 0H30C13.4315 0 0 13.4315 0 30V67C0 83.5685 13.4315 97 30 97H67C83.5685 97 97 83.5685 97 67V30C97 13.4315 83.5685 0 67 0Z" fill="#6F40EA"/>
-                    <path d="M41.3653 22.7703C41.5069 22.7574 41.6486 22.7467 41.7905 22.7383C44.2531 22.5947 46.1126 23.3285 47.9286 24.9703C51.9478 28.6039 50.9669 31.9371 51.2412 36.764C52.7287 36.8275 54.3364 36.7944 55.8242 36.769C55.7701 33.8129 55.2288 30.1606 57.2678 27.9523C58.4029 26.7066 61.0674 24.0376 62.7925 23.8944C65.4362 23.6749 68.1995 27.3424 65.8733 29.6172C64.3491 31.1077 62.9748 31.0275 61.0936 31.104C60.6181 32.3189 60.7559 35.4365 60.8951 36.7675C62.0159 36.7703 63.5981 36.8105 64.6511 36.5512C65.6127 36.3215 66.677 35.4253 67.6803 35.4707C70.8447 35.6088 72.8327 39.2471 70.2819 41.5297C67.3896 44.1179 67.1336 42.4925 64.497 41.6166C64.091 41.4818 60.293 41.63 59.5439 41.6399L51.1537 41.6703C51.1266 43.9182 51.1289 46.1664 51.1605 48.4142C52.3269 48.4162 54.0042 48.4545 55.1011 48.2254C56.1675 47.9779 57.326 47.0612 58.4394 47.1003C60.3075 47.1768 62.0724 48.8771 61.9859 50.7919C61.9134 52.3976 60.422 53.8282 58.9881 54.3579C57.4379 54.9305 56.2188 53.7245 54.747 53.3973C53.5736 53.1364 52.3593 53.1044 51.155 53.0418C51.1413 55.3802 51.1443 57.7187 51.1637 60.0571C53.5822 60.0564 56.0007 60.0401 58.4191 60.0082C59.319 60.0002 60.2189 60.0004 61.1188 60.009C63.8891 60.0365 66.2122 60.2239 68.2849 62.3538C68.7311 62.8103 69.1079 63.3299 69.4033 63.8957C69.8949 64.8356 70.1414 65.8339 70.5014 66.8256C70.7611 67.5922 71.591 68.9364 71.464 69.7469C70.9599 72.9637 66.7235 74.1404 64.6221 71.5215C63.4422 70.2934 63.9536 68.7002 64.6892 67.3478C65.3359 66.1588 64.8751 65.379 63.4747 65.1867C62.034 64.9889 60.4427 65.0694 58.966 65.0691L50.9813 65.0724C48.5119 74.7166 36.3126 77.4393 30.0079 69.7779C28.0412 67.3881 27.6772 65.7189 27.9418 62.7268C26.8651 61.53 25.4755 60.8599 24.5482 59.2744C22.64 56.0122 22.3173 51.4 24.0601 47.9937C24.4367 47.2578 25.9514 45.6884 26.0566 45.2432C23.9641 42.4342 25.6554 36.623 27.7962 34.2246C29.1673 32.6885 30.369 31.9114 32.0746 30.8222C32.8414 29.2892 32.9983 28.0986 34.2227 26.5725C36.1809 24.1317 38.3566 23.1723 41.3653 22.7703Z" fill="#FDFDFC"/>
-                    <path d="M41.4282 27.5916C42.0303 27.565 42.6111 27.6407 43.1842 27.8313C44.318 28.2083 45.1679 29.119 45.6791 30.1767C46.5633 32.0061 46.2255 34.6125 46.2182 36.6106C46.2105 38.7247 46.4944 41.3733 46.0196 43.4236C45.0794 47.484 40.2664 47.7671 39.5274 50.0023C39.3274 50.6073 39.4092 51.3801 39.7027 51.9433C39.9575 52.4324 40.4085 52.7893 40.9313 52.954C42.7686 53.533 44.656 52.2794 46.2279 51.4723C46.2999 53.7017 46.2305 56.0357 46.2297 58.2757C46.2292 59.8945 46.391 62.2361 46.0788 63.7452C45.5111 66.4896 43.2195 68.8227 40.3586 69.0802C37.8384 69.307 36.1645 68.3098 34.2507 66.7697C33.4747 66.0793 33.22 65.7001 32.7753 64.7764C33.8006 64.7338 34.9517 64.7463 35.8843 64.2678C36.3998 64.0033 36.7981 63.6121 36.9631 63.0463C37.77 60.2806 33.8316 60.0277 32.1092 59.2926C30.8101 58.738 29.5254 57.7722 28.8403 56.5136C28.2885 55.4997 28.0065 54.326 27.9787 53.1759C27.863 48.3972 32.0624 47.8 32.7336 45.4228C33.2367 43.6411 31.086 43.1294 30.3848 41.8765C30.0072 41.2018 30.0736 40.4488 30.29 39.732C30.7115 38.3354 31.4797 37.0478 32.7793 36.3406C34.0092 36.9666 34.2512 37.6822 35.9173 38.3246C36.6939 38.0686 37.035 37.9207 37.6435 37.3566C38.2917 35.5854 37.6623 34.3363 37.4055 32.566C37.0081 29.8264 38.8193 27.9505 41.4282 27.5916Z" fill="#6F40EA"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_264_1514">
-                            <rect width="97" height="97" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg>
+        #main-sidebar { 
+            width: var(--sb-w); 
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        /* Content Visibility Logic */
+        .sb-content {
+            transition: opacity 0.2s ease, transform 0.2s ease, width 0.3s ease;
+            opacity: 1;
+            transform: translateX(0);
+            display: inline-flex;
+            flex-direction: column;
+        }
+
+        html[data-sb="collapsed"] .sb-content {
+            opacity: 0;
+            transform: translateX(-10px);
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Centering Logic */
+        .sb-logo-container {
+            padding-left: var(--sb-logo-px);
+            padding-right: var(--sb-logo-px);
+            transition: all 0.3s ease;
+        }
+        html[data-sb="collapsed"] .sb-logo-container {
+            justify-content: center;
+        }
+
+        .sb-link {
+            display: flex;
+            align-items: center;
+            gap: var(--sb-gap);
+            transition: all 0.3s;
+        }
+        html[data-sb="collapsed"] .sb-link {
+            justify-content: center;
+        }
+
+        .sb-icon-wrapper {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Disable transitions on load to prevent jumping */
+        .no-transition, .no-transition * {
+            transition: none !important;
+        }
+
+        /* Toggle Button Rotation */
+        #sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        html[data-sb="collapsed"] #sidebar-toggle {
+            transform: rotate(180deg);
+        }
+    </style>
+    <script>
+        /* Immediate execution to prevent layout shift */
+        (function() {
+            const state = localStorage.getItem('sidebarOpen') === 'false' ? 'collapsed' : 'expanded';
+            document.documentElement.setAttribute('data-sb', state);
+            
+            // Temporary class to prevent transition on initial load
+            document.documentElement.classList.add('no-transition');
+            window.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    document.documentElement.classList.remove('no-transition');
+                }, 100);
+            });
+        })();
+    </script>
+</head>
+<body class="flex h-screen bg-[#F0EDE8] font-['Instrument_Sans'] text-[#1A1714] overflow-hidden" 
+      x-data="{ sidebarOpen: localStorage.getItem('sidebarOpen') !== 'false', mobileMenuOpen: false }" 
+      @sidebar-toggle.window="sidebarOpen = !sidebarOpen; localStorage.setItem('sidebarOpen', sidebarOpen); document.documentElement.setAttribute('data-sb', sidebarOpen ? 'expanded' : 'collapsed')">
+
+    <!-- Top Progress Bar -->
+    <div id="top-progress-bar"></div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="mobileMenuOpen" x-cloak @click="mobileMenuOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[140] md:hidden"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"></div>
+
+    <aside id="main-sidebar" 
+           :class="mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+           class="bg-[#1A1714] flex flex-col flex-shrink-0 h-full border-r border-[#2E2B28] fixed inset-y-0 left-0 z-[150] transition-transform duration-300 md:relative">
+        
+        <!-- Toggle Button (Desktop Only) -->
+        <button id="sidebar-toggle"
+                @click="sidebarOpen = !sidebarOpen; localStorage.setItem('sidebarOpen', sidebarOpen); document.documentElement.setAttribute('data-sb', sidebarOpen ? 'expanded' : 'collapsed')" 
+                class="absolute -right-3 top-12 w-6 h-6 bg-[#6646E5] rounded-full hidden md:flex items-center justify-center text-white cursor-pointer z-[100] border-2 border-[#1A1714] shadow-lg hover:scale-110 transition-all duration-300">
+            <x-heroicon-m-chevron-left class="w-4 h-4" />
+        </button>
+
+        <!-- Sidebar Background Glow -->
+        <div class="absolute -top-20 -left-20 w-[300px] h-[300px] bg-[#6646E5] rounded-full mix-blend-multiply filter blur-[100px] opacity-10 pointer-events-none"></div>
+
+        <!-- Logo Section -->
+        <div class="py-10 border-b border-[#2E2B28] mb-6 relative z-10 overflow-hidden h-[121px] flex-shrink-0 transition-all duration-300 flex items-center sb-logo-container">
+            <a href="{{ route('dashboard') }}" class="flex items-center group transition-all duration-300 sb-link">
+                <div class="w-10 h-10 bg-[#6646E5] rounded-[12px] flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(102,70,229,0.3)] group-hover:shadow-[0_0_25px_rgba(102,70,229,0.5)] group-hover:scale-105 transition-all duration-500">
+                    <x-logo class="w-6 h-6 text-white" />
                 </div>
-                <span class="text-[20px] font-normal font-['Inter'] tracking-tight text-white">Smart<span style="font-weight: bold;">Reviewer</span></span>
-            </div>
+                <div class="flex flex-col sb-content">
+                    <span class="text-[20px] leading-tight font-normal font-['Inter'] tracking-tight text-white whitespace-nowrap">Smart<span style="font-weight: bold;">Reviewer</span></span>
+                    <p class="text-[#9E9690] text-[9px] font-medium tracking-wide uppercase whitespace-nowrap">STUDY SMARTER, SCORE HGHER</p>
+                </div>
+            </a>
         </div>
 
-        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-            
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('dashboard') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <x-heroicon-o-home class="w-5 h-5 {{ request()->routeIs('dashboard') ? 'opacity-90' : 'opacity-70' }}" />
-                <span class="font-medium text-[14px]">Dashboard</span>
-            </a>
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 space-y-1.5 overflow-y-auto overflow-x-hidden relative z-10 custom-scrollbar">
 
-            <a href="{{ route('materials.upload') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('materials.upload') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <x-heroicon-o-cloud-arrow-up class="w-5 h-5 {{ request()->routeIs('materials.upload') ? 'opacity-90' : 'opacity-70' }}" />
-                <span class="font-medium text-[14px]">Upload Material</span>
-            </a>
-
-            <a href="{{ route('reviewer') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('reviewer') ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <x-heroicon-o-book-open class="w-5 h-5 {{ request()->routeIs('reviewer') ? 'opacity-90' : 'opacity-70' }}" />
-                <span class="font-medium text-[14px]">Reviewer</span>
-            </a>
-
-            <a href="{{ route('quizzes.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ (request()->routeIs('quizzes.index') || request()->routeIs('quizzes.session')) ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <x-heroicon-o-clipboard-document-list class="w-5 h-5 {{ (request()->routeIs('quizzes.index') || request()->routeIs('quizzes.session')) ? 'opacity-90' : 'opacity-70' }}" />
-                <span class="font-medium text-[14px]">Quizzes</span>
-            </a>
-
-            <a href="{{ route('quizzes.results') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ (request()->routeIs('quizzes.results') || request()->routeIs('quizzes.breakdown')) ? 'bg-[#252220] text-white shadow-[inset_2px_0_0_#6646E5]' : 'text-[#9E9690] hover:text-white hover:bg-[#252220]' }}">
-                <x-heroicon-o-chart-bar class="w-5 h-5 {{ (request()->routeIs('quizzes.results') || request()->routeIs('quizzes.breakdown')) ? 'opacity-90' : 'opacity-70' }}" />
-                <span class="font-medium text-[14px]">Results</span>
-            </a>
-            
-        </nav>
-
-        <div class="p-6 border-t border-[#2E2B28] mt-auto">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-[34px] h-[34px] rounded-full bg-[#6646E5] text-white flex items-center justify-center font-bold text-[12px]">
-                    {{ auth()->check() ? substr(auth()->user()->first_name, 0, 1) . substr(auth()->user()->last_name, 0, 1) : 'WS' }}
+            <a href="{{ route('dashboard') }}" class="block px-4 py-3.5 rounded-[14px] transition-all duration-300 group {{ request()->routeIs('dashboard') ? 'bg-[#6646E5] text-white shadow-[0_4px_20px_rgba(102,70,229,0.2)]' : 'text-[#9E9690] hover:text-white hover:bg-white/5' }}">
+                <div class="sb-link">
+                    <div class="sb-icon-wrapper">
+                        <x-heroicon-o-home class="w-5 h-5 transition-transform group-hover:scale-110 {{ request()->routeIs('dashboard') ? 'text-white' : 'text-[#6646E5]/70 group-hover:text-[#6646E5]' }}" />
+                    </div>
+                    <span class="font-bold text-[14px] whitespace-nowrap sb-content">Dashboard</span>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-white font-semibold text-[13px]">
-                        {{ auth()->check() ? auth()->user()->first_name . ' ' . auth()->user()->last_name : 'Wyndy Shane' }}
-                    </span>
-                    <span class="text-[#9E9690] text-[11px]">User</span>
+            </a>
+
+            <a href="{{ route('materials.upload') }}" class="block px-4 py-3.5 rounded-[14px] transition-all duration-300 group {{ request()->routeIs('materials.upload') ? 'bg-[#6646E5] text-white shadow-[0_4px_20px_rgba(102,70,229,0.2)]' : 'text-[#9E9690] hover:text-white hover:bg-white/5' }}">
+                <div class="sb-link">
+                    <div class="sb-icon-wrapper">
+                        <x-heroicon-o-cloud-arrow-up class="w-5 h-5 transition-transform group-hover:scale-110 {{ request()->routeIs('materials.upload') ? 'text-white' : 'text-[#6646E5]/70 group-hover:text-[#6646E5]' }}" />
+                    </div>
+                    <span class="font-bold text-[14px] whitespace-nowrap sb-content">Upload Material</span>
+                </div>
+            </a>
+
+            <a href="{{ route('reviewer') }}" class="block px-4 py-3.5 rounded-[14px] transition-all duration-300 group {{ request()->routeIs('reviewer') ? 'bg-[#6646E5] text-white shadow-[0_4px_20px_rgba(102,70,229,0.2)]' : 'text-[#9E9690] hover:text-white hover:bg-white/5' }}">
+                <div class="sb-link">
+                    <div class="sb-icon-wrapper">
+                        <x-heroicon-o-book-open class="w-5 h-5 transition-transform group-hover:scale-110 {{ request()->routeIs('reviewer') ? 'text-white' : 'text-[#6646E5]/70 group-hover:text-[#6646E5]' }}" />
+                    </div>
+                    <span class="font-bold text-[14px] whitespace-nowrap sb-content">Reviewer</span>
+                </div>
+            </a>
+
+            <a href="{{ route('quizzes.index') }}" class="block px-4 py-3.5 rounded-[14px] transition-all duration-300 group {{ (request()->routeIs('quizzes.index') || request()->routeIs('quizzes.session')) ? 'bg-[#6646E5] text-white shadow-[0_4px_20px_rgba(102,70,229,0.2)]' : 'text-[#9E9690] hover:text-white hover:bg-white/5' }}">
+                <div class="sb-link">
+                    <div class="sb-icon-wrapper">
+                        <x-heroicon-o-clipboard-document-list class="w-5 h-5 transition-transform group-hover:scale-110 {{ (request()->routeIs('quizzes.index') || request()->routeIs('quizzes.session')) ? 'text-white' : 'text-[#6646E5]/70 group-hover:text-[#6646E5]' }}" />
+                    </div>
+                    <span class="font-bold text-[14px] whitespace-nowrap sb-content">Quizzes</span>
+                </div>
+            </a>
+
+            <a href="{{ route('materials.index') }}" class="block px-4 py-3.5 rounded-[14px] transition-all duration-300 group {{ request()->routeIs('materials.index') ? 'bg-[#6646E5] text-white shadow-[0_4px_20px_rgba(102,70,229,0.2)]' : 'text-[#9E9690] hover:text-white hover:bg-white/5' }}">
+                <div class="sb-link">
+                    <div class="sb-icon-wrapper">
+                        <x-heroicon-o-folder-open class="w-5 h-5 transition-transform group-hover:scale-110 {{ request()->routeIs('materials.index') ? 'text-white' : 'text-[#6646E5]/70 group-hover:text-[#6646E5]' }}" />
+                    </div>
+                    <span class="font-bold text-[14px] whitespace-nowrap sb-content">Materials</span>
+                </div>
+            </a>
+
+            <a href="{{ route('quizzes.results') }}" class="block px-4 py-3.5 rounded-[14px] transition-all duration-300 group {{ (request()->routeIs('quizzes.results') || request()->routeIs('quizzes.breakdown')) ? 'bg-[#6646E5] text-white shadow-[0_4px_20px_rgba(102,70,229,0.2)]' : 'text-[#9E9690] hover:text-white hover:bg-white/5' }}">
+                <div class="sb-link">
+                    <div class="sb-icon-wrapper">
+                        <x-heroicon-o-chart-bar class="w-5 h-5 transition-transform group-hover:scale-110 {{ (request()->routeIs('quizzes.results') || request()->routeIs('quizzes.breakdown')) ? 'text-white' : 'text-[#6646E5]/70 group-hover:text-[#6646E5]' }}" />
+                    </div>
+                    <span class="font-bold text-[14px] whitespace-nowrap sb-content">Results</span>
+                </div>
+            </a>
+
+            <!-- Divider -->
+            <div class="py-6 px-4 flex-shrink-0">
+                <div class="h-px bg-gradient-to-r from-transparent via-[#2E2B28] to-transparent"></div>
+            </div>
+
+            <!-- Pro Tip Card -->
+            <div class="px-4 pb-4 flex-shrink-0 sb-content">
+                <div class="bg-gradient-to-br from-[#2E2B28] to-[#1A1714] border border-white/5 rounded-[20px] p-5 relative overflow-hidden group/tip cursor-default hover:border-[#6646E5]/40 transition-all duration-300">
+                    <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-[#6646E5] rounded-full blur-2xl opacity-20 group-hover/tip:opacity-40 transition-opacity"></div>                    <div class="w-8 h-8 bg-[#6646E5]/20 rounded-lg flex items-center justify-center text-[#A78BFA] mb-3 group-hover/tip:scale-110 transition-transform">
+                        <x-heroicon-o-light-bulb class="w-5 h-5" />
+                    </div>
+                    <h5 class="text-white text-[12px] font-bold mb-1">Study Tip</h5>
+                    <p class="text-[#9E9690] text-[11px] leading-relaxed">Try taking a quiz 10 minutes after reading to boost retention!</p>
                 </div>
             </div>
-            
+
+        </nav>
+
+        <!-- Profile & Logout -->
+        <div class="p-4 border-t border-[#2E2B28] mt-auto relative z-10 bg-[#1A1714] flex-shrink-0">
+            <a href="{{ route('profile.edit') }}" class="flex items-center p-3 rounded-2xl hover:bg-white/5 transition-colors group cursor-pointer mb-2 sb-link {{ request()->routeIs('profile.edit') ? 'bg-white/5' : '' }}">
+                <div class="sb-icon-wrapper w-12 h-12 rounded-full bg-[#6646E5] text-white font-bold text-[12px] shadow-lg group-hover:scale-105 transition-transform duration-300">
+                    {{ auth()->check() ? substr(auth()->user()->first_name, 0, 1) . substr(auth()->user()->last_name, 0, 1) : 'U' }}
+                </div>
+                <div class="flex flex-col min-w-0 sb-content">
+                    <span class="text-white font-bold text-[13px] truncate whitespace-nowrap group-hover:text-[#E0D8FC] transition-colors">
+                        {{ auth()->check() ? auth()->user()->first_name . ' ' . auth()->user()->last_name : 'User' }}
+                    </span>
+                    <span class="text-[#9E9690] text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Manage Profile</span>
+                </div>
+            </a>
+
             <form method="POST" action="{{ route('logout') }}" id="logout-form">
                 @csrf
-                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[#A39D98] hover:text-white hover:bg-white/5 rounded-xl transition-all mb-4 group text-left">
-                    <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5 text-[#A39D98] group-hover:text-[#FCA5A5] transition-colors" />
-                    <span class="font-medium text-[15px] group-hover:text-[#FCA5A5] transition-colors">Sign Out</span>
+                <button type="submit" class="w-full flex items-center px-4 py-3 text-[#9E9690] hover:text-white hover:bg-white/5 rounded-xl transition-all group text-left sb-link">
+                    <div class="sb-icon-wrapper">
+                        <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5 group-hover:text-red-400 group-hover:-translate-x-1 transition-all" />
+                    </div>
+                    <span class="font-bold text-[13px] group-hover:text-red-400 whitespace-nowrap sb-content">Sign Out</span>
                 </button>
             </form>
         </div>
 
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8">
-        @yield('content')
-    </main>
+    <div class="flex-1 flex flex-col h-screen min-w-0 overflow-hidden relative z-10">
+        <!-- Global Grid Background (Subtle for light theme) -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#1a171408_1px,transparent_1px),linear-gradient(to_bottom,#1a171408_1px,transparent_1px)] bg-[size:48px_48px]"></div>
+        </div>
+
+        <!-- Mobile Header -->
+        <header class="md:hidden flex items-center justify-between bg-white border-b border-[#E2DDD8] px-4 py-3 flex-shrink-0 relative z-[130]">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-[#6646E5] rounded-[8px] flex items-center justify-center shadow-sm">
+                    <x-logo class="w-5 h-5 text-white" />
+                </div>
+                <span class="font-bold text-[#1A1714] text-[16px] tracking-tight">SmartReviewer</span>
+            </div>
+            <button @click="mobileMenuOpen = true" class="p-2 -mr-2 text-[#7C7167] hover:text-[#1A1714] transition-colors">
+                <x-heroicon-o-bars-3 class="w-6 h-6" />
+            </button>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-8">
+            @yield('content')
+        </main>
+    </div>
+
+    <!-- Global Preview Modal -->
+    <div x-data="{ previewModalOpen: false, previewFileUrl: '', previewFileType: '' }" 
+         @open-preview.window="previewFileUrl = $event.detail.url; previewFileType = $event.detail.type; previewModalOpen = true"
+         x-show="previewModalOpen" 
+         x-cloak 
+         @keydown.escape.window="previewModalOpen = false"
+         class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+         style="z-index: 99999;"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+         
+         <div @click.away="previewModalOpen = false"
+              x-show="previewModalOpen"
+              x-transition:enter="transition ease-out duration-300 delay-100"
+              x-transition:enter-start="opacity-0 scale-95"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-200"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-95"
+              class="relative w-[98vw] max-w-[1800px] h-[96vh] bg-white rounded-[24px] shadow-2xl overflow-hidden flex flex-col">
+              
+              <!-- Header -->
+              <div class="flex items-center justify-between px-6 py-4 border-b border-[#E2DDD8] bg-gray-50 flex-shrink-0">
+                  <h3 class="text-lg font-bold text-[#1A1714]">File Preview</h3>
+                  <button @click="previewModalOpen = false" class="text-[#7C7167] hover:text-[#1A1714] transition-colors bg-white border border-[#E2DDD8] rounded-full p-1 shadow-sm">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                  </button>
+              </div>
+              
+              <!-- Content -->
+              <div class="flex-1 overflow-auto bg-[#F0EDE8] flex items-center justify-center p-6">
+                  <template x-if="previewFileType === 'pdf'">
+                      <iframe :src="previewFileUrl" class="w-full h-full rounded-lg shadow-sm border border-[#E2DDD8]"></iframe>
+                  </template>
+                  <template x-if="previewFileType === 'image'">
+                      <img :src="previewFileUrl" class="max-w-full max-h-full object-contain rounded-lg shadow-sm border border-[#E2DDD8]">
+                  </template>
+                  <template x-if="!previewFileType || (previewFileType !== 'pdf' && previewFileType !== 'image')">
+                      <div class="text-[#7C7167] text-center bg-white p-10 rounded-2xl border border-[#E2DDD8] shadow-sm">
+                          <x-heroicon-o-document-text class="w-16 h-16 mx-auto mb-4 text-[#A39D98]" />
+                          <p class="font-medium text-[16px]">Preview not available for this file type.</p>
+                          <a :href="previewFileUrl" target="_blank" class="text-[#6646E5] font-bold hover:underline mt-4 inline-block">Download File</a>
+                      </div>
+                  </template>
+              </div>
+         </div>
+    </div>
 
 </body>
 </html>

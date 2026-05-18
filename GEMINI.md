@@ -26,11 +26,19 @@ This project has domain-specific skills available. You MUST activate the relevan
 - `laravel-best-practices` — Apply this skill whenever writing, reviewing, or refactoring Laravel PHP code. This includes creating or modifying controllers, models, migrations, form requests, policies, jobs, scheduled commands, service classes, and Eloquent queries. Triggers for N+1 and query performance issues, caching strategies, authorization and security patterns, validation, error handling, queue and job configuration, route definitions, and architectural decisions. Also use for Laravel code reviews and refactoring existing Laravel code to follow best practices. Covers any task involving Laravel backend PHP code patterns.
 - `tailwindcss-development` — Always invoke when the user's message includes 'tailwind' in any form. Also invoke for: building responsive grid layouts (multi-column card grids, product grids), flex/grid page structures (dashboards with sidebars, fixed topbars, mobile-toggle navs), styling UI components (cards, tables, navbars, pricing sections, forms, inputs, badges), adding dark mode variants, fixing spacing or typography, and Tailwind v3/v4 work. The core use case: writing or fixing Tailwind utility classes in HTML templates (Blade, JSX, Vue). Skip for backend PHP logic, database queries, API routes, JavaScript with no HTML/CSS component, CSS file audits, build tool configuration, and vanilla CSS.
 
+## Quality & Thoroughness
+
+- **Sweet Spot for Quality:** While context efficiency is important, prioritize "High-Quality" outputs over absolute brevity for complex feature implementations (Quizzes, Flashcards, OCR). Use the available token window (Gemini 3 Flash Lite) to provide comprehensive, bug-free, and well-tested code.
+- **Deep Reasoning:** Before implementing complex logic, perform a "Strategy" phase that explores potential edge cases, performance bottlenecks (like N+1 queries), and security implications (like unauthorized access).
+- **Educational Quality:** For Quiz and Flashcard generation, prompts should aim for pedagogical value. This means plausible distractors for multiple-choice questions and detailed explanations that reinforce learning.
+- **User Experience:** Focus on interactive and responsive UI/UX. When adding features, consider how they will feel to the end-user (e.g., loading states, error handling, smooth transitions).
+
 ## Conventions
 
 - You must follow all existing code conventions used in this application. When creating or editing a file, check sibling files for the correct structure, approach, and naming.
 - Use descriptive names for variables and methods. For example, `isRegisteredForDiscounts`, not `discount()`.
 - Check for existing components to reuse before writing a new one.
+- **Proactive Refactoring:** If you encounter low-quality or non-idiomatic code in the files you are already editing, proactively refactor it to meet the project's high-quality standards.
 
 ## Verification Scripts
 

@@ -1,7 +1,5 @@
 @import 'tailwindcss';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@plugin "daisyui/index.js";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -12,3 +10,125 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Top Progress Bar */
+#top-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #6646E5;
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+    transition: width 0.4s ease, opacity 0.4s ease;
+    box-shadow: 0 0 10px rgba(102, 70, 229, 0.4);
+}
+
+#top-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, #6646E5);
+    box-shadow: 0 0 10px #6646E5, 0 0 5px #6646E5;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#top-progress-bar.loading {
+    opacity: 1;
+    width: 90%;
+    transition: width 15s cubic-bezier(0.1, 0.4, 0.4, 1);
+}
+
+#top-progress-bar.loading::after {
+    opacity: 1;
+}
+
+#top-progress-bar.finishing {
+    opacity: 1;
+    width: 100% !important;
+    transition: width 0.3s ease-out;
+}
+
+#top-progress-bar.finishing::after {
+    opacity: 1;
+}
+
+/* Subtle Shimmer Overlay */
+#top-progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 20%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        rgba(255, 255, 255, 0.1) 80%, 
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: progress-shimmer 2s infinite linear;
+}
+
+/* Modern Entrance Animations */
+@keyframes glide-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+.animate-glide-up {
+    animation: glide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-glide-down {
+    animation: glide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Browser Autofill Fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #1A1714 !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* For Dark Mode / Dark Input variants if they exist */
+input.bg-\[\#1A1714\]:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #1A1714 inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
